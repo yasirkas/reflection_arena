@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reflection Arena</title>
+
+    <!-- FAVICON-->
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicons/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png" />
+    <link rel="manifest" href="assets/favicons/site.webmanifest" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Giriş/Kayıt Ekranı -->
+        <div id="auth-screen" class="screen">
+            <div class="auth-panel">
+                <div class="auth-content">
+                    <h1 class="auth-title">
+                        <span class="title-main">Reflection</span>
+                        <span class="title-sub">Arena</span>
+                    </h1>
+                    <div id="auth-box">
+                        <form id="login-form" class="auth-form active">
+                            <div class="input-group">
+                                <label for="login-identifier" data-i18n="login_username_label"></label>
+                                <input type="text" id="login-identifier" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="login-password" data-i18n="login_password_label"></label>
+                                <input type="password" id="login-password" required>
+                            </div>
+                            <div class="remember-me-group">
+                                <input type="checkbox" id="remember-me-checkbox">
+                                <label for="remember-me-checkbox" data-i18n="remember_me"></label>
+                            </div>
+                            <button type="submit" class="submit-arrow-btn">→</button>
+                        </form>
+                        <form id="register-form" class="auth-form">
+                            <div class="input-group">
+                                <label for="register-username" data-i18n="register_username_label"></label>
+                                <input 
+                                    type="text" 
+                                    id="register-username" 
+                                    required
+                                    maxlength="16" 
+                                    pattern="[a-z0-9]+"
+                                    title="Sadece küçük harfler ve rakamlar kullanılabilir."
+                                >
+                            </div>
+                            <div class="input-group">
+                                <label for="register-email" data-i18n="register_email_label"></label>
+                                <input type="email" id="register-email" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="register-password" data-i18n="login_password_label"></label>
+                                <input type="password" id="register-password" data-i18n-placeholder="password_placeholder" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="register-password-confirm" data-i18n="login_password_confirm_label"></label>
+                                <input type="password" id="register-password-confirm" required>
+                            </div>
+                            <button type="submit" class="submit-arrow-btn">→</button>
+                        </form>
+                        <p id="auth-error" class="error-message"></p>
+                    </div>
+                    <div class="auth-switcher">
+                        <button id="show-register-btn" class="switch-btn active" data-i18n="create_account_link"></button>
+                        <button id="show-forgot-password-btn" class="switch-btn active" data-i18n="forgot_password_link"></button>
+                        <button id="show-login-btn" class="switch-btn" data-i18n="have_account_link"></button>
+                    </div>
+                </div>
+                <div id="language-switcher-container">
+                    <button id="language-switcher-button">
+                        <span class="globe-icon">🌐</span>
+                        <span id="current-language-display">Türkçe</span>
+                    </button>
+
+                    <div id="language-dropdown-menu">
+                        <button class="language-option" data-lang="tr">
+                            <span class="flag-icon">🇹🇷</span> Türkçe
+                        </button>
+                        <button class="language-option" data-lang="en">
+                            <span class="flag-icon">🇬🇧</span> English
+                        </button>
+                        <button class="language-option" data-lang="es">
+                            <span class="flag-icon">🇪🇸</span> Español
+                        </button>
+                        <button class="language-option" data-lang="ar">
+                            <span class="flag-icon">🇸🇦</span> العربية
+                        </button>
+                        <button class="language-option" data-lang="az">
+                            <span class="flag-icon">🇦🇿</span> Azərbaycanca
+                        </button>
+                        <button class="language-option" data-lang="de">
+                            <span class="flag-icon">🇩🇪</span> Deutsch
+                        </button>
+                        <button class="language-option" data-lang="fr">
+                            <span class="flag-icon">🇫🇷</span> Français
+                        </button>
+                        <button class="language-option" data-lang="it">
+                            <span class="flag-icon">🇮🇹</span> Italiano
+                        </button>
+                        <button class="language-option" data-lang="ja">
+                            <span class="flag-icon">🇯🇵</span> 日本語
+                        </button>
+                        <button class="language-option" data-lang="ko">
+                            <span class="flag-icon">🇰🇷</span> 한국어
+                        </button>
+                        <button class="language-option" data-lang="pt">
+                            <span class="flag-icon">🇵🇹</span> Português
+                        </button>
+                        <button class="language-option" data-lang="ru">
+                            <span class="flag-icon">🇷🇺</span> Русский
+                        </button>
+                        <button class="language-option" data-lang="zh">
+                            <span class="flag-icon">🇨🇳</span> 中文
+                        </button>
+                    </div>
+                </div>
+                <p class="copyright-notice">© 2025 yasirkas. All Rights Reserved.</p>
+                <span class="version-tag">v1.0.0</span>
+            </div>
+            <div class="video-panel">
+                <video src="assets/video/gameplay-showcase.mp4" autoplay loop muted playsinline></video>
+            </div>
+        </div>
+
+        <!-- E-posta Doğrulama Ekranı -->
+        <div id="email-verify-screen" class="screen">
+            <div class="verify-box">
+                <h2 data-i18n="verify_email_title"></h2>
+                <p>
+                    <span data-i18n="verify_email_desc_1"></span>
+                    <strong id="user-email-placeholder"></strong>
+                    <span data-i18n="verify_email_desc_2"></span>
+                </p>
+                <div class="modal-actions">
+                    <button id="resend-verification-btn" class="menu-btn" data-i18n="resend_email_button"></button>
+                    <button id="back-to-login-from-verify-btn" class="menu-btn secondary" data-i18n="back_to_login_link"></button>
+                </div>
+                <p id="verify-info" class="info-message"></p>
+            </div>
+        </div>
+
+        <!-- Şifre Sıfırlama Ekranı -->
+        <div id="forgot-password-screen" class="screen">
+            <div class="form-box-centered">
+                <h2 data-i18n="forgot_password_title"></h2>
+                <p data-i18n="forgot_password_desc"></p>
+                <form id="forgot-password-form">
+                    <div class="input-group">
+                        <label for="forgot-email" data-i18n="register_email_label"></label>
+                        <input type="email" id="forgot-email" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="menu-btn primary" data-i18n="forgot_password_button"></button>
+                    </div>
+                    <p id="forgot-password-info" class="info-message"></p>
+                </form>
+                <div class="auth-switcher">
+                    <button id="back-to-login-from-forgot-btn" class="switch-btn active" data-i18n="back_to_login_link"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ana Menü -->
+        <div id="main-menu" class="screen">
+            <!-- YENİ: Arka plan animasyonu için canvas -->
+
+            <div id="top-right-container">
+                <!-- YENİ: Paylaş butonu ve metnini gruplayan konteyner -->
+                <div class="share-container">
+                    <button id="share-profile-btn" class="share-btn" title="Rekorlarını Paylaş!">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                    </button>
+                    <!-- YENİ: Butonun altına metin ekle -->
+                    <span class="share-text" data-i18n="share_profile_text"></span>
+                </div>
+
+                <div id="user-info">
+                    <div id="user-profile-avatar"></div>
+                    <span id="user-profile-display"></span>
+                </div>
+                <button id="logout-btn" data-i18n="logout_button"></button>
+            </div>
+            
+            <!-- YENİ: İçeriği sola hizalamak için bir sarmalayıcı -->
+            <div class="menu-content">
+            <h1>
+                <span class="title-main">Reflection</span>
+                <span class="title-sub">Arena</span>
+            </h1>
+            <p data-i18n="main_menu_subtitle"></p>
+            <div class="menu-buttons-container">
+
+                <button id="play-btn" class="menu-btn secondary">
+                    <img src="assets/icons/play-icon.png" alt="Play" class="menu-btn-icon">
+                    <span data-i18n="play_button"></span>
+                </button>
+                
+                <div class="reflection-button-container">
+                    <button id="reflection-mode-btn" class="menu-btn secondary locked">
+                        <span class="lock-icon">🔒</span>
+                        <img src="assets/icons/reflection-arena.png" alt="Reflection Boss" class="menu-btn-icon reflection-btn-icon">
+                        <span data-i18n="reflection_mode_button"></span>
+                    </button>
+                    <div id="reflection-progress-bar" class="reflection-progress-bar">
+                        <div id="reflection-progress-fill" class="reflection-progress-fill"></div>
+                        <span id="reflection-progress-text" class="reflection-progress-text">0 / 1000 Yankı</span>
+                    </div>
+                </div>
+
+                <button id="highscore-btn" class="menu-btn secondary">
+                    <img src="assets/icons/trophy-icon.png" alt="High Scores" class="menu-btn-icon">
+                    <span data-i18n="highscores_button"></span>
+                </button>
+
+                <button id="how-to-play-btn" class="menu-btn secondary">
+                    <img src="assets/icons/info-icon.png" alt="How to Play" class="menu-btn-icon">
+                    <span data-i18n="how_to_play_button"></span>
+                </button>
+
+                <button id="show-story-btn" class="menu-btn secondary">
+                    <img src="assets/icons/story-icon.png" alt="Story" class="menu-btn-icon">
+                    <span data-i18n="story_button"></span>
+                </button>
+
+            </div>
+        </div>
+        </div>
+        
+        <!-- Yüksek Skorlar Ekranı -->
+        <div id="highscore-screen" class="screen">
+            <h2 data-i18n="highscores_page_title"></h2>
+            <div id="highscore-list"></div>
+            <button id="back-to-menu-from-highscore-btn" class="menu-btn primary" data-i18n="back_button"></button>
+        </div>
+
+        <!-- Profil Ekranı -->
+        <div id="profile-screen" class="screen">
+            <h2 data-i18n="profile_title"></h2>
+            <div id="profile-box">
+                <div class="profile-header">
+                    <div id="profile-page-avatar"></div>
+                    <h3 id="profile-page-username"></h3>
+
+                    <!-- Renk seçicileri kullanıcı adının hemen yanına taşıdık -->
+                    <div class="profile-customization">
+                        <div class="color-picker-group">
+                            <h5 class="color-picker-title" data-i18n="profile_color_character"></h5>
+                            <input type="color" id="player-color-picker" class="color-picker-input">
+                        </div>
+                        <div class="color-picker-group">
+                            <h5 class="color-picker-title" data-i18n="profile_color_projectile"></h5>
+                            <input type="color" id="projectile-color-picker" class="color-picker-input">
+                        </div>
+                    </div>
+
+                    <!-- .profile-actions div'i artık sadece ayarlar menüsünü içeriyor -->
+                    <div class="profile-actions">
+                        <div id="profile-settings-container" class="settings-container">
+                            <button id="profile-settings-btn" class="settings-btn">⚙️</button>
+                            <div id="profile-settings-dropdown" class="settings-dropdown">
+                                <button id="show-controls-settings-btn" class="dropdown-item" data-i18n="controls_settings_button"></button>
+                                <button id="show-change-password-btn" class="dropdown-item" data-i18n="change_password_button"></button>
+                                <button id="show-feedback-btn" class="dropdown-item" data-i18n="feedback_button"></button>
+                                <button id="show-delete-account-modal-btn" class="dropdown-item danger" data-i18n="delete_account_link"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-stats">
+                    <h4 data-i18n="profile_records_title"></h4>
+                    <div id="profile-scores-list">
+                        <!-- Skorlar buraya gelecek -->
+                    </div>
+                </div>
+            </div>
+            <button id="back-to-menu-from-profile-btn" class="menu-btn primary" data-i18n="back_button"></button>
+        </div>
+
+
+         <!-- Mod Seçimi -->
+        <div id="mode-select-screen" class="screen">
+            <h2 data-i18n="mode_select_title"></h2>
+            <div id="mode-selector">
+                <!-- İkonlu butonlar burada, onlarda değişiklik yok -->
+                <button class="menu-btn mode-btn" data-mode="SKILL_DODGE">
+                    <img src="assets/icons/skill-dodge.png" alt="Skill + Dodge Icon" class="mode-icon">
+                    <span data-i18n="mode_skill_dodge"></span>
+                </button>
+                <button class="menu-btn mode-btn" data-mode="DODGE_ONLY">
+                    <img src="assets/icons/dodge-only.png" alt="Dodge Only Icon" class="mode-icon">
+                    <span data-i18n="mode_dodge_only"></span>
+                </button>
+                <button class="menu-btn mode-btn" data-mode="KITE_ONLY">
+                    <img src="assets/icons/kite-only.png" alt="Kite Only Icon" class="mode-icon">
+                    <span data-i18n="mode_kite_only"></span>
+                </button>
+                <button class="menu-btn mode-btn" data-mode="KAOS">
+                    <img src="assets/icons/kaos.png" alt="KAOS Icon" class="mode-icon">
+                    <span data-i18n="mode_kaos"></span>
+                </button> 
+            </div>
+            <!-- GÜNCELLENDİ: 'primary' sınıfı 'secondary' ile değiştirildi -->
+            <button id="back-to-menu-from-mode-btn" class="menu-btn primary" data-i18n="back_button"></button>
+        </div>
+
+        <!-- Nasıl Oynanır -->
+        <div id="how-to-play-screen" class="screen">
+        <h2 data-i18n="how_to_play_title"></h2>
+        <div class="instructions">
+            
+            <div class="how-to-play-section">
+                <h3 class="section-title" data-i18n="controls_title"></h3>
+                <div class="controls-grid">
+                    <p><span data-i18n="controls_movement_label"></span> <span data-i18n="controls_movement_value"></span></p>
+                    <p><span data-i18n="controls_fire_label"></span> <span data-i18n="controls_fire_value"></span></p>
+                    <p><span data-i18n="controls_stop_label"></span> <span data-i18n="controls_stop_value"></span></p>
+                </div>
+            <p class="controls-info" data-i18n="controls_change_info"></p>
+            </div>
+
+            <div class="how-to-play-section">
+                <h3 class="section-title" data-i18n="objective_label"></h3>
+                
+                <p class="objective-intro" data-i18n="objective_intro"></p>
+
+                <div class="objective-step">
+                    <p class="step-title" data-i18n="objective_part1_title"></p>
+                    <p class="step-desc" data-i18n="objective_part1_desc"></p>
+                </div>
+
+                <div class="objective-step">
+                    <p class="step-title" data-i18n="objective_part2_title"></p>
+                    <p class="step-desc" data-i18n="objective_part2_desc"></p>
+                </div>
+
+                <p class="objective-outro" data-i18n="objective_outro"></p>
+            </div>
+            
+            <p class="info" data-i18n="how_to_play_info"></p>
+        </div>
+        <button id="back-to-menu-from-how-to-play-btn" class="menu-btn primary" data-i18n="back_button"></button>
+    </div>
+
+
+        <!-- Paradox'un Hikayesi Ekranı -->
+        <div id="story-screen" class="screen">
+            <h2 data-i18n="story_title"></h2>
+            <div class="instructions story-content"> <!-- "Nasıl Oynanır?" ile aynı stili kullanacak -->
+                <p data-i18n="story_text"></p>
+            </div>
+            <button id="back-to-menu-from-story-btn" class="menu-btn primary" data-i18n="back_button"></button>
+        </div>
+
+        <!-- Oyun Alanı -->
+        <div id="game-area" class="screen">
+            <div id="game-ui"><div id="score-display"></div></div>
+            <canvas id="gameCanvas"></canvas>
+            <div id="game-over-screen" class="game-over-ui">
+                <div id="game-over-box">
+                    <h1 data-i18n="game_over_title"></h1>
+                    <p id="final-score-label"></p>
+                    <p id="final-score-value"></p>
+                    
+                    <p id="rs-earned-display" class="rs-earned-display"></p>
+                    
+                    <p id="personal-best-notification" class="personal-best-notification"></p>
+                    
+                    <button id="restart-btn" class="menu-btn" data-i18n="game_over_back_to_menu"></button>
+                </div>
+            </div>
+            <div id="pause-screen" class="game-over-ui">
+                <div id="pause-box">
+                    <h1 data-i18n="pause_title"></h1>
+                    <p id="countdown-display"></p>
+                    <button id="resume-btn" class="menu-btn" data-i18n="resume_button"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meydan Okuma Ekranı -->
+        <div id="challenge-screen" class="screen">
+            <!-- YENİ: İki sütunlu yerleşim için ana konteyner -->
+            <div class="challenge-layout-container">
+
+                <!-- SOL SÜTUN: Ana menüden kopyalanan başlık ve alt başlık -->
+                <div class="menu-content">
+                    <h1>
+                        <span class="title-main">Reflection</span>
+                        <span class="title-sub">Arena</span>
+                    </h1>
+                    <p data-i18n="main_menu_subtitle"></p>
+                </div>
+
+                <!-- SAĞ SÜTUN: Mevcut meydan okuma kutusu -->
+                <div class="challenge-box">
+                    <h2 id="challenge-title"></h2>
+                    <p id="challenge-subtitle" data-i18n="challenge_subtitle_text"></p>
+                    <div id="challenge-scores-list" class="profile-scores-list">
+                        <!-- Skorlar buraya JS ile yüklenecek -->
+                    </div>
+                    <button id="accept-challenge-btn" class="menu-btn primary" data-i18n="accept_challenge_button"></button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mobil Cihazlar İçin Karşılama Ekranı -->
+        <div id="mobile-screen" class="screen">
+            <div class="mobile-content">
+                <!-- Ana menüdeki başlığı yeniden kullanıyoruz -->
+                <h1>
+                    <span class="title-main">Reflection</span>
+                    <span class="title-sub">Arena</span>
+                </h1>
+                
+                <!-- Oynanış videosu için bir konteyner -->
+                <div class="mobile-video-container">
+                    <video src="assets/video/gameplay-showcase.mp4" autoplay loop muted playsinline></video>
+                </div>
+                
+                <!-- Bilgilendirme metinleri -->
+                <p class="mobile-main-text" data-i18n="mobile_main_text"></p>
+                <p class="mobile-sub-text" data-i18n="mobile_sub_text"></p>
+            </div>
+        </div>
+
+    </div>
+    
+    <div id="audio-controls">
+        <button id="mute-btn" class="audio-btn">🔊</button>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.35">
+    </div>
+
+    <!-- Hesap Silme Onay Penceresi -->
+    <div id="delete-account-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 data-i18n="delete_account_modal_title"></h2>
+            <p data-i18n="delete_account_modal_desc"></p>
+            <form id="delete-account-form">
+                <div class="input-group">
+                    <label for="delete-feedback" data-i18n="delete_account_reason_label"></label>
+                    <textarea id="delete-feedback" rows="3"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="delete-password" data-i18n="delete_account_password_label"></label>
+                    <input type="password" id="delete-password" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-delete-btn" class="menu-btn primary" data-i18n="delete_account_cancel_button"></button>
+                    <button type="submit" class="menu-btn primary" data-i18n="delete_account_confirm_button"></button>
+                </div>
+                 <p id="delete-error" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="feedback-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 data-i18n="feedback_modal_title"></h2>
+            <form id="feedback-form">
+                <div class="input-group">
+                    <label data-i18n="feedback_category_label"></label>
+                    <div class="category-selector">
+                        <button type="button" class="category-btn active" data-category="Bug Report" data-i18n="feedback_category_bug"></button>
+                        <button type="button" class="category-btn" data-category="Suggestion" data-i18n="feedback_category_suggestion"></button>
+                        <button type="button" class="category-btn" data-category="General" data-i18n="feedback_category_general"></button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="feedback-text" data-i18n="feedback_textarea_label"></label>
+                    <textarea id="feedback-text" rows="5" maxlength="500" required></textarea>
+                    <div id="char-counter">0 / 500</div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-feedback-btn" class="menu-btn primary" data-i18n="delete_account_cancel_button"></button>
+                    <button type="submit" id="send-feedback-btn" class="menu-btn primary" data-i18n="feedback_send_button"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kontrol Ayarları Penceresi -->
+    <div id="controls-settings-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 data-i18n="controls_settings_title"></h2>
+            <div class="controls-settings-grid">
+                <!-- Ateş Etme Satırı -->
+                <span class="control-label" data-i18n="controls_fire_label"></span>
+                <button id="remap-fire-btn" class="remap-btn" data-action="fire">Q</button>
+
+                <!-- Durma Satırı -->
+                <span class="control-label" data-i18n="controls_stop_label"></span>
+                <button id="remap-stop-btn" class="remap-btn" data-action="stop">S</button>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="close-controls-settings-btn" class="menu-btn primary" data-i18n="save_button"></button> 
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== YENİ ŞİFRE DEĞİŞTİRME PENCERESİ ===== -->
+    <div id="change-password-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 data-i18n="change_password_modal_title"></h2>
+            <form id="change-password-form">
+                <div class="input-group">
+                    <label for="current-password" data-i18n="current_password_label"></label>
+                    <input type="password" id="current-password" required>
+                </div>
+                <div class="input-group">
+                    <label for="new-password" data-i18n="new_password_label"></label>
+                    <input type="password" id="new-password" data-i18n-placeholder="password_placeholder" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-new-password" data-i18n="confirm_new_password_label"></label>
+                    <input type="password" id="confirm-new-password" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-change-password-btn" class="menu-btn primary" data-i18n="delete_account_cancel_button"></button>
+                    <button type="submit" class="menu-btn primary" data-i18n="update_password_button"></button>
+                </div>
+                <p id="change-password-error" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Geçici Bildirimler için Konteyner -->
+    <div id="toast-notification-container"></div>
+    
+    
+    <canvas id="menu-background-canvas"></canvas>
+    
+    <script type="module" id="game-script"></script>
+    <script>
+        document.getElementById('game-script').src = 'js/main.js?version=' + new Date().getTime();
+    </script>
+</body>
+</html>

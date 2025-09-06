@@ -1,0 +1,1815 @@
+/* ==========================================================================
+   1. TEMEL STİLLER & GENEL YAPI
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-container {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    background: transparent;
+}
+
+.screen.active {
+    display: flex;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+#menu-background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #121212;
+    display: none;
+}
+
+
+/* ==========================================================================
+   2. GİRİŞ & KİMLİK DOĞRULAMA EKRANLARI
+   ========================================================================== */
+#auth-screen {
+    flex-direction: row;
+    padding: 0;
+    justify-content: flex-start;
+    background-color: #f9f9f9;
+}
+.auth-panel {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background-color: #f9f9f9;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #111;
+    flex-shrink: 0;
+}
+.auth-content {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+}
+.video-panel {
+    flex-grow: 1;
+    height: 100vh;
+    background-color: #111;
+}
+.video-panel video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.auth-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25em;
+    flex-wrap: nowrap;
+}
+.auth-title .title-main { color: #00bcd4; }
+.auth-title .title-sub { color: #111; }
+.auth-form {
+    display: none;
+    flex-direction: column;
+}
+.auth-form.active { display: flex; }
+#auth-box {
+    background: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+.input-group { margin-bottom: 20px; }
+.input-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6e6e6e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 10px 5px;
+}
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #ececec;
+    border: 2px solid #ececec;
+    border-radius: 8px;
+    color: #111;
+    transition: border-color 0.2s;
+}
+.input-group input:focus {
+    outline: none;
+    border-color: #d1d1d1;
+}
+.auth-form input:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #ececec inset;
+    -webkit-text-fill-color: #111;
+    transition: background-color 5000s ease-in-out 0s;
+}
+.submit-arrow-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 20px;
+    background-color: #00bcd4;
+    border: none;
+    color: white;
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
+    margin: 20px auto 0;
+    transition: background-color 0.2s;
+}
+.submit-arrow-btn:hover { background-color: #00a5b8; }
+.auth-switcher {
+    text-align: center;
+    padding-top: 15px;
+}
+.switch-btn {
+    background: none;
+    border: none;
+    color: #6e6e6e;
+    cursor: pointer;
+    display: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0 10px;
+}
+.switch-btn.active { display: inline; }
+.switch-btn:hover { color: #111; }
+.form-box-centered .switch-btn:hover {
+    color: #e0e0e0;
+}
+#auth-error {
+    text-align: center;
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    min-height: 24px;
+    color: #ff4655;
+}
+.remember-me-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: -10px 0 20px 0;
+}
+#remember-me-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #00bcd4;
+}
+.remember-me-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+}
+
+
+/* ==========================================================================
+   3. ANA MENÜ & GENEL MENÜ BUTONLARI
+   ========================================================================== */
+#main-menu {
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    background: none;
+}
+
+.menu-buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Menü butonları konteynerinin içindeki doğrudan çocukları hedefler
+   (yani her bir buton veya buton grubu) */
+.menu-buttons-container > * {
+    margin-bottom: 5px; /* Her elemanın altına 20px boşluk ekler */
+}
+
+/* En son elemanın altındaki gereksiz boşluğu kaldırır */
+.menu-buttons-container > *:last-child {
+    margin-bottom: 0;
+}
+
+.menu-content {
+    position: relative;
+    z-index: 1;
+    padding-left: 10vw;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.menu-content h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.menu-content h1 .title-main { color: #00bcd4; }
+.menu-content h1 .title-sub { color: #e0e0e0; }
+.menu-content p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #999;
+    margin-bottom: 35px; /* ESKİSİ: 60px -> YENİSİ: 40px */
+    max-width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-align: left;
+    line-height: 1.6;
+}
+    -buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+.menu-btn {
+    border-radius: 8px;
+    margin-top: 0;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    width: 280px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* ESKİSİ: flex-start -> YENİSİ: center */
+    letter-spacing: 1px;
+    padding: 0 25px;
+    gap: 15px;
+}
+
+/* "Ters Çevrilmiş" Birincil Buton Stili */
+.menu-btn.primary {
+    background-color: #2a2a2a;      /* Diğer kutularla aynı koyu gri arka plan */
+    border: 2px solid #00bcd4;      /* Çerçeve ana rengimiz (turkuaz) */
+    color: #00bcd4;                 /* Metin ve ikon rengi de turkuaz */
+    font-size: 1.3rem;
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.15); /* Hafif bir parlama */
+}
+
+/* Üzerine gelindiğinde tamamen dolgulu hale gelir */
+.menu-btn.primary:hover {
+    background-color: #00bcd4;      /* Arka plan turkuaz olur */
+    color: #121212;                 /* Metin ve ikon rengi siyaha döner */
+    border-color: #00bcd4;
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 188, 212, 0.4); /* Parlama artar */
+}
+
+.menu-btn.secondary {
+    font-size: 1.1rem;
+    background-color: transparent;
+    border: 2px solid #555;
+    color: #ccc;
+    height: 65px; /* ESKİSİ: 60px -> YENİSİ: 65px */
+}
+.menu-btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: #888;
+    transform: scale(1.03);
+}
+
+.menu-btn-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.menu-btn span {
+    flex-grow: 1; /* Kalan tüm alanı doldurur */
+    text-align: center; /* Ve bu alanın içinde kendini ortalar */
+}
+
+
+.menu-btn:disabled {
+    background-color: #444;
+    color: #888;
+    border-color: #444;
+    cursor: not-allowed;
+    transform: none;
+}
+/* Tüm alt menülerdeki "Geri" butonu için standart */
+#back-to-menu-from-profile-btn,
+#back-to-menu-from-how-to-play-btn,
+#back-to-menu-from-highscore-btn,
+#back-to-menu-from-mode-btn,
+#back-to-menu-from-story-btn {
+    width: 280px;
+    height: 60px;
+    margin-top: 20px;
+    flex-shrink: 0;
+}
+
+
+/* ==========================================================================
+   4. EKRANLARA ÖZEL STİLLER
+   ========================================================================== */
+
+/* --- MOD SEÇİM EKRANI --- */
+#mode-selector {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+.mode-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    color: #e0e0e0;
+    width: 200px;
+    height: 180px;
+    padding: 20px;
+}
+.mode-btn:hover {
+    transform: translateY(-8px);
+    border-color: #00bcd4;
+    box-shadow: 0 8px 25px rgba(0, 188, 212, 0.15);
+}
+.mode-btn span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    pointer-events: none;
+}
+
+/* --- HİKAYE & NASIL OYNANIR EKRANLARI --- */
+.instructions {
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.instructions p {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.instructions p:last-child { margin-bottom: 0; }
+.instructions p strong {
+    color: #00bcd4;
+    display: inline-block;
+    width: 100px;
+}
+.instructions .info {
+    margin-top: 25px;
+    font-size: 1rem;
+    color: #9e9e9e;
+    text-align: center;
+    border-top: 1px solid #444;
+    padding-top: 15px;
+}
+#how-to-play-screen .instructions, #story-screen .instructions {
+    width: 90%;
+    max-width: 900px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding: 25px 40px;
+    text-align: left;
+}
+#story-screen h2, #how-to-play-screen h2 {
+    margin-bottom: 25px;
+}
+.how-to-play-section {
+    margin-bottom: 25px;
+}
+.section-title {
+    font-size: 1.1rem;
+    color: #00bcd4;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #444;
+}
+.controls-grid { margin-bottom: 0; }
+.controls-grid p {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+.controls-grid p:last-child { margin-bottom: 0; }
+.controls-grid span:first-child {
+    font-weight: 700;
+    color: #e0e0e0;
+    display: inline-block;
+    width: 90px;
+}
+#controls-settings-modal .modal-box h2,
+#change-password-modal .modal-box h2,
+#feedback-modal .modal-box h2 {
+    color: #00bcd4; /* Tema rengimiz olan mavi */
+}
+.objective-intro, .objective-outro, .step-desc {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+    white-space: pre-line;
+}
+.objective-intro, .objective-outro { margin-bottom: 20px; }
+.objective-step { margin-bottom: 20px; }
+.step-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: underline;
+    color: #e0e0e0;
+    margin-bottom: 8px;
+}
+.story-content {
+    max-width: 800px;
+    text-align: left;
+    margin-bottom: 40px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-right: 20px;
+}
+.story-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+    white-space: pre-line;
+}
+
+/* --- OYUN ALANI & ARAYÜZÜ --- */
+#game-area { padding: 0; background: none; }
+canvas#gameCanvas {
+    background-color: #212121;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 1;
+    
+    /* ===== BU İKİ SATIRI EKLE ===== */
+    width: 100%;
+    height: 100%;
+}
+#game-ui {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    pointer-events: none;
+}
+#score-display {
+    background-color: rgba(0,0,0,0.5);
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 600;
+}
+.game-over-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 18, 18, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+.game-over-ui.visible {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+}
+#game-over-box, #pause-box {
+    background-color: #2a2a2a;
+    padding: 25px 40px; /* YENİ: Üst/Alt boşluk azaldı, Sağ/Sol aynı kaldı */
+    border-radius: 16px;
+    border: 1px solid #444;
+    text-align: center;
+    min-width: 380px;
+    max-width: 420px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    animation: pop-in-up 0.4s 0.2s ease-out forwards;
+}
+#game-over-box h1, #pause-box h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+#final-score-label {
+    font-size: 0.9rem;
+    color: #9e9e9e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+#final-score-value {
+    font-size: 5rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 30px; /* YENİ: Boşluğu buradan kontrol ediyoruz */
+}
+#restart-btn, #resume-btn {
+    width: 100%;
+    height: 60px;
+    margin-top: 0;
+    background-color: #00bcd4;
+    color: #121212;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    letter-spacing: 1px;
+}
+#restart-btn:hover, #resume-btn:hover {
+    background-color: #4dd0e1;
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+}
+#pause-box h1 { margin-bottom: 15px; }
+#countdown-display {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #00bcd4;
+    min-height: 60px;
+    margin-bottom: 25px;
+}
+
+/* --- YÜKSEK SKORLAR EKRANI --- */
+#highscore-list {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1600px;
+    height: 70vh;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+.highscore-column {
+    flex: 1;
+    background-color: #2a2a2a;
+    padding: 20px 0; /* ESKİSİ: 20px -> YENİSİ: 20px 0 (Sadece üst/alt boşluk) */
+    border-radius: 10px;
+    border: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.highscore-column.wide {
+    flex: 1;
+    min-width: 100px;
+}
+.highscore-column ul {
+    list-style: none;
+    padding: 0;
+}
+.highscore-column li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    /* YENİ: Her satıra kendi yatay boşluğunu veriyoruz */
+    padding: 8px 20px; 
+    
+    border-bottom: 1px solid #333;
+    font-size: 1rem;
+}
+.highscore-column li:last-child { border-bottom: none; }
+
+.highscore-column .score-rank {
+    font-weight: 600;
+    color: #9e9e9e;
+    min-width: 30px;
+    text-align: left; /* Sıra numarasını da sola yaslayalım */
+    margin-left: -10px;
+}
+.highscore-column .score-username {
+    /* Mevcut Konumlandırma Stilleri */
+    flex-grow: 1;
+    color: #e0e0e0;
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 10px;
+
+    /* "..." (Elipsis) Kodları */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* --- HATAYI DÜZELTEN SİHİRLİ SATIR --- */
+    min-width: 0; /* Flexbox'ın kutuyu doğru şekilde küçültmesine izin verir */
+}
+.highscore-column .score-value {
+    font-weight: 700;
+    color: #00bcd4;
+
+    /* --- KAYMAYI ENGELLEYEN SİHİRLİ KURAL --- */
+    white-space: nowrap; /* Bu elementin içindeki metnin asla alt satıra kaymamasını sağlar */
+    margin-right: -10px;
+}
+.highscore-column-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.highscore-column h3 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00bcd4;
+}
+/* Skor tablosu sekmeleri */
+.highscore-tabs {
+    display: flex;
+    border-bottom: 1px solid #444;
+    margin-bottom: 15px;
+}
+.highscore-tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #888;
+    padding: 12px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.highscore-tab-btn:hover { color: #ccc; }
+.highscore-tab-btn.active {
+    color: #00bcd4;
+    border-bottom-color: #00bcd4;
+}
+.score-list-pane {
+    display: none;
+    list-style: none;
+    padding: 0;
+}
+.score-list-pane.active { display: block; }
+
+/* --- PROFİLDE OYNANMAYAN MODLAR İÇİN STİL --- */
+.score-not-played {
+    font-size: 1.1rem;      /* Boyutu biraz daha küçük */
+    font-weight: 400;       /* Daha ince bir yazı tipi */
+    color: #888;            /* Sönük bir gri renk */
+    font-style: italic;     /* İtalik yaparak ayırt edici olmasını sağla */
+}
+
+/* --- PROFİL EKRANI --- */
+#profile-box {
+    background-color: #2a2a2a;
+    padding: 25px 35px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    width: 100%;
+    max-width: 580px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #444;
+}
+#profile-page-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #00bcd4;
+    color: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+#profile-page-username {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #e0e0ee;
+    margin-right: auto;
+}
+
+.profile-stats h4 {
+    font-size: 1.1rem;
+    color: #00bcd4;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+#profile-scores-list,
+#challenge-scores-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #333;
+    padding: 12px;
+    border-radius: 5px;
+}
+.stat-text {
+    display: flex;
+    flex-direction: column;
+    
+    /* --- YENİ EKLENEN ORTALAMA KODLARI --- */
+    flex-grow: 1;           /* 1. İkondan sonra kalan tüm boşluğu kapla. */
+    align-items: center;    /* 2. İçindeki öğeleri (başlık ve skor) yatayda ortala. */
+}
+.stat-item .mode-name {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #bdbdbd;
+    margin-bottom: 2px;
+    
+    align-items: center; /* Kendi içindeki satırları da ortalar */
+}
+.stat-item .score-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #e0e0e0;
+}
+
+
+/* ==========================================================================
+   5. BİLEŞENLER (MODALLAR, SES KONTROLLERİ, VB.)
+   ========================================================================== */
+
+/* --- MODALLAR & DOĞRULAMA PENCERELERİ --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 18, 18, 0.7);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+.modal-overlay.visible { display: flex; }
+.modal-box, .verify-box, .form-box-centered {
+    background-color: #2a2a2a;
+    padding: 30px 40px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    width: 100%;
+    max-width: 550px;
+    animation: pop-in 0.3s ease-out;
+    text-align: center;
+
+    /* ===== BU SATIRLARI EKLE ===== */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Standart sözdizimi */
+    /* ============================ */
+}
+.modal-box h2 { color: #ff5252; }
+.verify-box h2, .form-box-centered h2 { color: #00bcd4; }
+.modal-box p, .verify-box p, .form-box-centered p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+.modal-box .input-group, .form-box-centered .input-group { text-align: left; }
+.modal-box .input-group textarea, .modal-box .input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: #e0e0e0;
+    margin-top: 5px;
+}
+.modal-box .input-group textarea { resize: vertical; }
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+.modal-box .menu-btn {
+    /* Metnin alt satıra geçmesine izin ver */
+    white-space: normal;
+    
+    /* Metin alt satıra geçtiğinde dikey hizalamayı koru */
+    line-height: 1.4;
+
+    /* Gerekirse yazı boyutunu biraz küçült (isteğe bağlı ama etkili) */
+    font-size: 1rem;
+
+    /* Yüksekliği otomatik ayarla, içeriğe göre büyüsün */
+    height: auto;
+    min-height: 60px; /* Minimum yüksekliği koru */
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.modal-actions .danger-btn {
+    background-color: #ff5252;
+    border: none;
+    color: #000;
+}
+.modal-actions .danger-btn:hover { background-color: #d32f2f; }
+.info-message {
+    color: #4CAF50;
+    margin-top: 20px;
+    font-weight: 600;
+    min-height: 20px;
+}
+
+/* --- SAĞ ÜST KÖŞE (PROFİL & ÇIKIŞ) --- */
+#top-right-container {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    z-index: 10;
+}
+
+#user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#user-info:hover {
+    transform: scale(1.05);
+}
+
+#user-profile-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #00bcd4;
+    color: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+#user-profile-display {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+#logout-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e0e0e0;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    align-self: center;
+    transition: all 0.2s ease;
+}
+
+#logout-btn:hover {
+    background-color: #ff5252;
+    border-color: #ff5252;
+    color: #fff;
+    transform: scale(1.05); 
+}
+
+/* --- DİL DEĞİŞTİRİCİ --- */
+#language-switcher-container {
+    position: fixed;
+    top: 25px;
+    right: 30px;
+    z-index: 300;
+}
+#language-switcher-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+#language-switcher-button:hover { background-color: rgba(255, 255, 255, 0.2); }
+.globe-icon { font-size: 1.2rem; }
+#language-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+     max-height: 400px;
+    overflow-y: auto;
+    z-index: 301;  
+}
+#language-dropdown-menu.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.language-option {
+    display: flex;
+    align-items: baseline; 
+    gap: 10px;
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    color: #e0e0e0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 5px;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.language-option:hover { background-color: rgba(255, 255, 255, 0.1); }
+.language-option.active { color: #00bcd4; }
+
+/* --- SES KONTROLLERİ --- */
+#audio-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+#audio-controls.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.audio-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.audio-btn:hover { background: rgba(255, 255, 255, 0.2); }
+#volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 120px;
+    height: 5px;
+    background: #444;
+    border-radius: 5px;
+    outline: none;
+    transition: opacity .2s;
+}
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #00bcd4;
+    cursor: pointer;
+    border-radius: 50%;
+}
+#volume-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #00bcd4;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+}
+
+
+/* ==========================================================================
+   6. İKONLAR & REFLECTION BOSS BUTONU
+   ========================================================================== */
+.header-mode-icon,
+.mode-icon,
+.profile-mode-icon,
+.reflection-btn-icon {
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.mode-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 20px;
+}
+.header-mode-icon {
+    width: 40px;
+    height: 40px;
+}
+.profile-mode-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+.reflection-button-container {
+    position: relative;
+    width: 280px;
+}
+.reflection-progress-bar {
+    width: 100%;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    height: 18px;
+    margin-top: 3px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #444;
+}
+.reflection-progress-fill {
+    background: linear-gradient(90deg, #00bcd4, #008c9e);
+    height: 100%;
+    width: 0%;
+    border-radius: 3px;
+    transition: width 0.5s ease-out;
+}
+.reflection-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+.menu-btn.locked .lock-icon {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 1rem;
+}
+.menu-btn:not(.locked) .lock-icon { display: none; }
+.menu-btn.locked .reflection-btn-icon { display: none; }
+
+.rs-earned-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00bcd4;
+    margin-top: -15px;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fade-in-up 0.5s 0.5s ease-out forwards;
+}
+
+
+/* ==========================================================================
+   7. DİĞER & YARDIMCI KODLAR
+   ========================================================================== */
+.version-tag {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: #c4c4c4;
+    font-size: 0.8rem;
+}
+.copyright-notice {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #c4c4c4;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+
+/* ==========================================================================
+   8. ANİMASYONLAR
+   ========================================================================== */
+@keyframes pop-in-up {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes fade-in-up {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================================================== 
+    9. YÜKSEK SKORLARDA İLK 3 SIRALAMA RENGİ 
+   ======================================================================= */
+
+
+/* 1. SIRA (ALTIN - En Parlak) */
+.score-rank.rank-1 {
+    color: #FFD700;
+    font-weight: 700;
+    text-shadow: 
+        0 0 6px rgba(255, 255, 255, 0.9),
+        0 0 12px rgba(255, 215, 0, 0.8);
+}
+
+/* 2. SIRA (GÜMÜŞ - Orta Parlaklık) */
+.score-rank.rank-2 {
+    color: #E0E0E0;
+    font-weight: 700;
+    text-shadow: 
+        0 0 4px rgba(255, 255, 255, 0.7),
+        0 0 8px rgba(224, 224, 224, 0.5);
+}
+
+/* 3. SIRA (BRONZ - Daha Hafif Parlaklık) */
+.score-rank.rank-3 {
+    color: #CD7F32;
+    font-weight: 700;
+    text-shadow: 
+        0 0 3px rgba(255, 255, 255, 0.5),
+        0 0 6px rgba(205, 127, 50, 0.4);
+}
+
+/* ÖNEMLİ: Skor değerlerinin rengini, 1. sıradaki vurgudan etkilenmemesi için
+   orijinal rengine sabitliyoruz. */
+.highscore-column .score-value {
+    color: #00bcd4;
+}
+
+/* YÜKSEK SKORLARDA İLK 3 OYUNCU İSMİNE DIŞ HAT (STROKE) EFEKTİ */
+
+/* Tüm ilk 3 isim için ortak stil */
+.score-rank.rank-1 ~ .score-username,
+.score-rank.rank-2 ~ .score-username,
+.score-rank.rank-3 ~ .score-username {
+    font-weight: 700;
+}
+
+/* 1. SIRA (GÜÇLÜ ALTIN AURA) */
+.score-rank.rank-1 ~ .score-username {
+    text-shadow: 
+        /* Siyah Kontrast Katmanı (Okunabilirlik için) */
+        -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000, 1px 1px 1px #000,
+        /* Güçlendirilmiş Altın Parlama Katmanı */
+        0 0 10px #FFD700; /* ESKİSİ: 7px -> YENİSİ: 10px */
+}
+
+/* 2. SIRA (GÜÇLÜ GÜMÜŞ AURA) */
+.score-rank.rank-2 ~ .score-username {
+    text-shadow: 
+        /* Siyah Kontrast Katmanı */
+        -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000, 1px 1px 1px #000,
+        /* Güçlendirilmiş Gümüş Parlama Katmanı */
+        0 0 10px #E0E0E0; /* ESKİSİ: 7px -> YENİSİ: 10px */
+}
+
+/* 3. SIRA (GÜÇLÜ BRONZ AURA) */
+.score-rank.rank-3 ~ .score-username {
+    text-shadow: 
+        /* Siyah Kontrast Katmanı */
+        -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000, 1px 1px 1px #000,
+        /* Güçlendirilmiş Bronz Parlama Katmanı */
+        0 0 10px #CD7F32; /* ESKİSİ: 7px -> YENİSİ: 10px */
+}
+
+/* ========================================================================== 
+    10 --- PROFİL EKRANI RENK SEÇİMİ 
+   ==================================================================== */
+.profile-customization {
+    display: flex;
+    gap: 15px;
+}
+
+.color-picker-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* Başlık ve renk kutusu arası boşluk */
+}
+
+.color-picker-title {
+    font-size: 0.8rem; /* Başlıkları küçültüyoruz */
+    color: #bdbdbd;
+    margin-bottom: 0; /* Alttaki boşluğu sıfırlıyoruz */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* YENİ RENK SEÇİCİ STİLLERİ */
+.color-picker-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 36px;  /* ESKİ: 60px -> YENİ: 36px */
+    height: 36px; /* ESKİ: 60px -> YENİ: 36px */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Renk seçicinin içindeki renkli kutuyu hedefler */
+.color-picker-input::-webkit-color-swatch {
+    border-radius: 50%; /* Yuvarlak yap */
+    border: 3px solid #555; /* Etrafına bir çerçeve ekle */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.color-picker-input::-moz-color-swatch {
+    border-radius: 50%;
+    border: 3px solid #555;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.color-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 200px;
+}
+
+.color-option {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected {
+    border-color: #ffffff;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+/* ========================================================================== 
+    11 --- --- PROFİL AYARLAR MENÜSÜ ---
+   ==================================================================== */
+.settings-container {
+    position: relative; /* Açılır menünün konumlandırılması için anahtar */
+    align-self: flex-start; /* Kendini dikeyde en üste hizalar */
+}
+
+.settings-btn {
+    background: none;
+    border: none;
+    color: #bdbdbd;
+    font-size: 1.5rem; /* İkon boyutu */
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.settings-dropdown {
+    position: absolute;
+    top: calc(100% + 5px); /* Butonun hemen altına */
+    right: 0; /* Sağa hizalı */
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    width: 200px; /* Menü genişliği */
+    
+    /* Başlangıçta gizli olması için */
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.settings-dropdown.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    color: #e0e0e0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item.danger {
+    color: #ff8a80; /* Kırmızı metin */
+}
+
+.dropdown-item.danger:hover {
+    background-color: #ff5252; /* Üzerine gelince arka plan kırmızı */
+    color: #fff; /* Metin beyaz */
+}
+
+
+/* ========================================================================== 
+    12 --- KİŞİSEL REKOR BİLDİRİMİ
+   ==================================================================== */
+.personal-best-notification {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+    margin-top: -10px;
+    margin-bottom: 25px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fade-in-up 0.5s 0.7s ease-out forwards;
+}
+
+/* Bildirim içindeki eski ve yeni skorları biçimlendirmek için */
+.personal-best-notification .old-score {
+    color: #bdbdbd;
+    font-weight: 400;
+}
+
+.rs-earned-display:empty,
+.personal-best-notification:empty {
+    display: none;
+}
+
+/* ========================================================================== 
+    13 --- PARADOX BUTONU PARLAMA ANİMASYONU 
+   ==================================================================== */
+@keyframes pulsing-glow {
+  0% {
+    box-shadow: 0 0 8px rgba(229, 57, 53, 0.3), 0 0 10px rgba(229, 57, 53, 0.2) inset;
+    border-color: #E53935; 
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(239, 83, 80, 0.7), 0 0 25px rgba(239, 83, 80, 0.5) inset;
+    border-color: #EF5350; /* Parlama anında bir ton açığı */
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(229, 57, 53, 0.3), 0 0 10px rgba(229, 57, 53, 0.2) inset;
+    border-color: #E53935;
+  }
+}
+.paradox-btn-unlocked {
+  animation: pulsing-glow 2.5s infinite ease-in-out;
+  color: #EF5350;
+}
+/* ========================================================================== 
+    14 --- GEÇİCİ BİLDİRİM (TOAST) STİLLERİ
+   ==================================================================== */
+#toast-notification-container {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999; /* Her şeyin üzerinde olsun */
+  pointer-events: none; /* Üzerine tıklanmasını engelle */
+}
+
+.toast {
+  padding: 15px 25px;
+  background: linear-gradient(90deg, #00bcd4, #008c9e);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  animation: slide-in-out 4s ease-in-out forwards;
+}
+
+@keyframes slide-in-out {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* ========================================================================== 
+    15 --- PAYLAŞ BUTONU STİLİ
+   ==================================================================== */
+.share-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e0e0e0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  pointer-events: none; /* Tıklama olayını üstteki konteynere devret */
+  border-color: #4CAF50; /* YENİ: Belirgin bir yeşil çerçeve */
+  color: #4CAF50;  
+}
+
+.share-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* Buton ve metin arası boşluk */
+    cursor: pointer; /* Konteynerin tamamı tıklanabilir hissi versin */
+    transition: transform 0.2s ease;
+}
+
+.share-container:hover {
+    transform: scale(1.05);
+}
+
+
+.share-text {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s ease; /* Metin rengi için yumuşak geçiş */
+}
+
+.share-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #00bcd4;
+  color: #00bcd4;
+  transform: scale(1.1);
+}
+
+/* --- MEYDAN OKUMA EKRANI STİLİ --- */
+#challenge-screen {
+    /* 1. Flex yönünü yatay olarak ayarla (en önemli düzeltme) */
+    flex-direction: row; 
+    
+    /* 2. Artık doğru eksende çalışan hizalama kuralları */
+    justify-content: flex-start; /* İçeriği yatayda sola yasla */
+    align-items: center;   /* İçeriği dikeyde ortala */
+
+    /* 3. Ana menü ile aynı sol boşluğu ver */
+    padding-left: 2vw;
+}
+
+/* Bu konteynerin artık özel bir hizalama kuralına ihtiyacı yok. */
+.challenge-layout-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Meydan okuma ekranındaki menu-content için özel ayarlar */
+#challenge-screen .menu-content {
+  padding-left: 0;
+  flex-shrink: 0;
+  align-items: flex-start; 
+  text-align: left;
+}
+
+/* ANA MENÜDEN KOPYALANAN VE BURADA DA GEÇERLİ OLAN STİLLER */
+#challenge-screen .menu-content h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+#challenge-screen .menu-content h1 .title-main { color: #00bcd4; }
+#challenge-screen .menu-content h1 .title-sub { color: #e0e0e0; }
+#challenge-screen .menu-content p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #999;
+    margin-bottom: 0;
+    max-width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 1.6;
+}
+
+/* SAĞ SÜTUN (DEĞİŞİKLİK YOK) */
+.challenge-box {
+  background-color: #2a2a2a;
+  padding: 30px 40px;
+  border-radius: 16px;
+  border: 1px solid #444;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+#challenge-title { font-size: 2rem; margin-bottom: 15px; color: #e0e0e0; }
+#challenge-title .challenger-name { color: #00bcd4; font-weight: 800; }
+#challenge-subtitle { font-size: 1.1rem; color: #bdbdbd; margin-bottom: 30px; }
+#challenge-scores-list { margin-bottom: 40px; }
+#accept-challenge-btn { width: 100%; height: 65px; font-size: 1.3rem; }
+
+/* ========================================================================== 
+    16 --- KONTROL AYARLARI PENCERESİ STİLLERİ
+   ==================================================================== */
+.controls-settings-grid {
+    display: grid;
+    /* İki sütun: etiket ve buton */
+    grid-template-columns: auto auto; /* Sütun genişlikleri içeriğe göre otomatik ayarlansın */
+    justify-content: center; /* Tüm grid'i yatay olarak ortala */
+    gap: 20px 30px; /* Dikey ve yatay boşluklar */
+    align-items: center;
+    margin: 40px 0;
+}
+
+.control-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: right;
+    color: #bdbdbd;
+}
+
+.controls-info {
+  margin-top: 15px; /* Üstündeki listeden biraz boşluk bırak */
+  font-size: 1rem;  /* Biraz daha küçük */
+  color: #9e9e9e;  /* Daha sönük bir renk */
+  text-align: center; /* Ortalanmış */
+  font-style: italic;
+}
+
+.remap-btn {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #fff;
+    font-family: 'Poppins', sans-serif; /* Fontu tutarlı yap */
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 8px;
+    width: 120px; /* Sabit genişlik */
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.remap-btn:hover {
+    background-color: #444;
+    border-color: #777;
+}
+
+/* "Dinleme" modundayken butonun görünümü */
+.remap-btn.listening {
+    border-color: #00bcd4;
+    color: #00bcd4;
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.3);
+}
+
+/* ========================================================================== 
+    17 --- MOBİL KARŞILAMA EKRANI STİLLERİ
+   ==================================================================== */
+#mobile-screen .mobile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    max-width: 500px; /* Çok geniş mobil ekranlarda metnin dağılmasını önle */
+}
+
+/* Mobil ekrandaki başlığın boyutunu ayarla */
+#mobile-screen h1 {
+    font-size: 3.5rem; /* Masaüstünden biraz daha küçük */
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+#mobile-screen h1 .title-main { color: #00bcd4; }
+#mobile-screen h1 .title-sub { color: #e0e0e0; }
+
+.mobile-video-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden; /* Videonun köşelerinin de yuvarlak olmasını sağla */
+    margin-bottom: 30px;
+    border: 2px solid #555;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-video-container video {
+    width: 100%;
+    display: block; /* Altındaki küçük boşluğu kaldır */
+}
+
+.mobile-main-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.mobile-sub-text {
+    font-size: 1rem;
+    color: #9e9e9e;
+    line-height: 1.6;
+}
+
+/* ========================================================================== 
+    17 --- DİL SEÇİCİ BAYRAK İKONLARI
+   ==================================================================== */
+.flag-icon {
+    font-size: 1.2rem;
+}
+
+/* ========================================================================== 
+    18 --- GERİ BİLDİRİM PENCERESİ STİLLERİ
+   ==================================================================== */
+.category-selector {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    justify-content: center;
+}
+
+.category-btn {
+    flex: 1;
+    background-color: #333;
+    border: 1px solid #555;
+    color: #bdbdbd;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-btn.active {
+    background-color: #00bcd4;
+    border-color: #00bcd4;
+    color: #121212;
+}
+
+#char-counter {
+    text-align: right;
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 5px;
+}
