@@ -3,43 +3,47 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Sadece 'main' branch'ine push yapıldığında çalış
+      - main
 
-# Gerekli izinleri ayarla
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Dağıtımın aynı anda birden fazla çalışmasını engelle
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  deploy: # Job adını daha basit hale getirdim
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v4 # En son versiyon v4
+        uses: actions/checkout@v4
 
-      - name: Create config.js from Secret 🤫
-        run: printf '%s\n' "${{ secrets.FIREBASE_CONFIG }}" > config.js
+      - name: Create config.js from Secrets 🤫
+        run: |
+          echo "export const firebaseConfig = {" > config.js
+          echo "  apiKey: \"${{ secrets.FIREBASE_API_KEY }}\"," >> config.js
+          echo "  authDomain: \"${{ secrets.FIREBASE_AUTH_DOMAIN }}\"," >> config.js
+          echo "  projectId: \"${{ secrets.FIREBASE_PROJECT_ID }}\"," >> config.js
+          echo "  storageBucket: \"${{ secrets.FIREBASE_STORAGE_BUCKET }}\"," >> config.js
+          echo "  messagingSenderId: \"${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}\"," >> config.js
+          echo "  messagingSenderId: \"${{ secrets.FIREBASE_MEASUREMENT_ID }}\"," >> config.js
+          echo "  appId: \"${{ secrets.FIREBASE_APP_ID }}\"" >> config.js
+          echo "};" >> config.js
 
       - name: Setup Pages 🛠️
-        uses: actions/configure-pages@v4 # En son versiyon v4
+        uses: actions/configure-pages@v4
 
       - name: Upload artifact 📦
-        # DEĞİŞİKLİK BURADA: v2 yerine v3 kullanıyoruz
         uses: actions/upload-pages-artifact@v3
         with:
-          # Kök dizindeki tüm dosyaları yükle
           path: '.'
 
       - name: Deploy to GitHub Pages 🚀
         id: deployment
-        # DEĞİŞİKLİK BURADA: v2 yerine v4 kullanıyoruz
         uses: actions/deploy-pages@v4
