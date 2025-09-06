@@ -5,29 +5,41 @@ on:
     branches:
       - main # Sadece 'main' branch'ine push yapıldığında çalış
 
+# Gerekli izinleri ayarla
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Dağıtımın aynı anda birden fazla çalışmasını engelle
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  build-and-deploy:
+  deploy: # Job adını daha basit hale getirdim
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # En son versiyon v4
 
       - name: Create config.js from Secret 🤫
         run: echo "${{ secrets.FIREBASE_CONFIG }}" > config.js
 
       - name: Setup Pages 🛠️
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v4 # En son versiyon v4
 
       - name: Upload artifact 📦
-        uses: actions/upload-pages-artifact@v2
+        # DEĞİŞİKLİK BURADA: v2 yerine v3 kullanıyoruz
+        uses: actions/upload-pages-artifact@v3
         with:
+          # Kök dizindeki tüm dosyaları yükle
           path: '.'
 
       - name: Deploy to GitHub Pages 🚀
         id: deployment
-        uses: actions/deploy-pages@v2
+        # DEĞİŞİKLİK BURADA: v2 yerine v4 kullanıyoruz
+        uses: actions/deploy-pages@v4
