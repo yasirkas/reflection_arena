@@ -1,4 +1,4 @@
-import * as firebase from '../../firebase.js';
+import * as firebase from '../firebase.js';
 import * as i18n from './i18n.js';
 import { initMenuBackground, stopMenuBackground } from './menu-background.js';
 import { PLAYER_COLOR, PLAYER_PROJECTILE_COLOR } from './constants.js';
