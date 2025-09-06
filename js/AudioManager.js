@@ -67,15 +67,15 @@ export class AudioManager {
     this.hitEQ.Q.value = 1.5;
 
     // --- SESLERİ YÜKLE ---
-    this.loadSound('shoot', '../assets/audio/shoot.mp3');
-    this.loadSound('hit', '../assets/audio/hit.mp3');
-    this.loadSound('gameOver', '../assets/audio/game-over.mp3');
-    this.loadSound('click', '../assets/audio/ui-click.mp3');
-    this.loadSound('laser', '../assets/audio/laser.mp3');
-    this.loadSound('enemyShoot', '../assets/audio/enemy-shoot.mp3');
-    this.loadMusic('menu', '../assets/audio/menu-music.mp3');
-    this.loadMusic('gameplay', '../assets/audio/gameplay-music.mp3');
-    this.loadMusic('paradox', '../assets/audio/paradox-music.mp3');
+    this.loadSound('shoot', './assets/audio/shoot.mp3');
+    this.loadSound('hit', './assets/audio/hit.mp3');
+    this.loadSound('gameOver', './assets/audio/game-over.mp3');
+    this.loadSound('click', './assets/audio/ui-click.mp3');
+    this.loadSound('laser', './assets/audio/laser.mp3');
+    this.loadSound('enemyShoot', './assets/audio/enemy-shoot.mp3');
+    this.loadMusic('menu', './assets/audio/menu-music.mp3');
+    this.loadMusic('gameplay', './assets/audio/gameplay-music.mp3');
+    this.loadMusic('paradox', './assets/audio/paradox-music.mp3');
 }
 
     setMasterVolume(volume) {
