@@ -1850,30 +1850,28 @@ canvas#gameCanvas {
 /* --- 20 - MOBİL CİHAZLAR İÇİN MEYDAN OKUMA EKRANI UYARLAMASI --- */
 /* Ekran genişliği 768 piksel veya daha darsa, bu kurallar geçerli olur */
 @media (max-width: 768px) {
+    #challenge-screen .menu-content { display: none; }
+    .challenge-layout-container { display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; }
+    .challenge-box { transform: scale(0.7); }
+    #challenge-scores-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
+}
 
-    /* Sol sütunu gizle */
-    #challenge-screen .menu-content {
-        display: none;
-    }
-
-    /* Ana konteynerin, içindeki kutuyu ortalamasını sağla */
-    .challenge-layout-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-    }
-
-    /* 1. Meydan okuma kutusunu bir bütün olarak KÜÇÜLT */
-    .challenge-box {
-        transform: scale(0.7);
-    }
-
-    /* 2. Kutu küçülmüş olsa bile, İÇİNDEKİ skor listesini TEK SÜTUNA DÜŞÜR */
-    #challenge-scores-list {
-        display: grid;
-        grid-template-columns: 1fr; /* Sadece TEK bir sütun olsun */
-        gap: 10px; /* Kutular arası boşluğu ayarla */
-    }
+/* GERÇEK mobil cihazlar için, ekran genişliği ne olursa olsun uygulanacak stiller */
+html.mobile #challenge-screen .menu-content {
+    display: none;
+}
+html.mobile .challenge-layout-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+html.mobile .challenge-box {
+    transform: scale(0.7);
+}
+html.mobile #challenge-scores-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
