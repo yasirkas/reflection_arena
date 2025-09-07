@@ -1,6 +1,6 @@
  # Reflection Arena
 
-**🚀 Hemen Oyna:** **[https://yasirkas.github.io/reflection-arena/](https://yasirkas.github.io/reflection-arena/)**
+**🚀 Hemen Oyna:** **[https://yasirkas.github.io/reflection_arena/](https://yasirkas.github.io/reflection_arena/)**
 
 ---
 
