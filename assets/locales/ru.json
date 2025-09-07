@@ -112,6 +112,7 @@
   "pause_countdown_start": "Игра начинается",
   "pause_countdown_fight": "Бой!",
   "resume_button": "Продолжить",
+  "replay_button": "Играть снова",
 
   "delete_account_modal_title": "Вы собираетесь удалить аккаунт",
   "delete_account_modal_desc": "Это действие необратимо. Чтобы продолжить, подтвердите пароль и сообщите нам причину.",

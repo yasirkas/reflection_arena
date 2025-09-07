@@ -65,7 +65,8 @@ export class UI {
             gameOverScreen: document.getElementById('game-over-screen'),
             finalScoreLabel: document.getElementById('final-score-label'),
             finalScoreValue: document.getElementById('final-score-value'),
-            restartBtn: document.getElementById('restart-btn'),
+            backToMenuBtn: document.getElementById('back-to-menu-btn'),
+            replayBtn: document.getElementById('replay-btn'),
             pauseScreen: document.getElementById('pause-screen'),
             pauseBox: document.getElementById('pause-box'),
             countdownDisplay: document.getElementById('countdown-display'),
@@ -584,9 +585,20 @@ export class UI {
             this.showScreen('game-area');                          
         }
     });
-        this.elements.restartBtn.addEventListener('click', () => {
+        // "Ana Menüye Dön" butonu
+        this.elements.backToMenuBtn.addEventListener('click', () => {
             if (this.game.canClickRestart) this.showScreen('main-menu');
         });
+
+        // "Tekrar Oyna" butonu
+        this.elements.replayBtn.addEventListener('click', () => {
+            if (this.game.canClickRestart) {
+                this.showScreen('game-area');
+                this.game.start(this.game.currentGameMode, this.userProfile);
+            }
+        });
+
+        // "Devam Et" butonu
         this.elements.resumeBtn.addEventListener('click', () => this.game.resume());
 
         this.elements.showDeleteAccountModalBtn.addEventListener('click', () => {

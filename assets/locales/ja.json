@@ -112,6 +112,7 @@
   "pause_countdown_start": "ゲーム開始",
   "pause_countdown_fight": "戦闘！",
   "resume_button": "再開",
+  "replay_button": "もう一度プレイ",
 
   "delete_account_modal_title": "アカウントを削除しようとしています",
   "delete_account_modal_desc": "この操作は元に戻せません。続行するにはパスワードを確認し、退会理由を教えてください。",

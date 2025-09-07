@@ -112,6 +112,7 @@
   "pause_countdown_start": "Início do jogo",
   "pause_countdown_fight": "Lutar!",
   "resume_button": "Continuar",
+  "replay_button": "Jogar Novamente",
 
   "delete_account_modal_title": "Você está prestes a deletar a conta",
   "delete_account_modal_desc": "Esta ação não pode ser desfeita. Para continuar, confirme sua senha e informe o motivo da saída.",

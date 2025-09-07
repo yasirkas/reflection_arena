@@ -112,6 +112,7 @@
   "pause_countdown_start": "游戏开始",
   "pause_countdown_fight": "战斗！",
   "resume_button": "继续",
+  "replay_button": "再玩一次",
 
   "delete_account_modal_title": "你即将删除账户",
   "delete_account_modal_desc": "此操作无法撤销。继续前，请验证密码并告知离开的原因。",

@@ -112,6 +112,7 @@
   "pause_countdown_start": "Oyun başlayır",
   "pause_countdown_fight": "Mübarizə!",
   "resume_button": "Davam et",
+  "replay_button": "Yenidən Oyna",
 
   "delete_account_modal_title": "Hesabını silirsən",
   "delete_account_modal_desc": "Bu əməliyyat geri qaytarıla bilməz. Davam etmək üçün şifrəni təsdiqlə və getməyinin səbəbini bildir.",

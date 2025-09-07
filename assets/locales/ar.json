@@ -112,6 +112,7 @@
   "pause_countdown_start": "بدء اللعبة",
   "pause_countdown_fight": "حارب!",
   "resume_button": "متابعة",
+  "replay_button": "العب مرة أخرى",
 
   "delete_account_modal_title": "أنت على وشك حذف الحساب",
   "delete_account_modal_desc": "هذا الإجراء لا يمكن التراجع عنه. للمواصلة، أكد كلمة المرور وأخبرنا سبب المغادرة.",

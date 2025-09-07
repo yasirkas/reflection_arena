@@ -112,6 +112,7 @@
   "pause_countdown_start": "Le jeu commence",
   "pause_countdown_fight": "Combat !",
   "resume_button": "Continuer",
+  "replay_button": "Rejouer",
 
   "delete_account_modal_title": "Vous êtes sur le point de supprimer votre compte",
   "delete_account_modal_desc": "Cette action est irréversible. Pour continuer, confirmez votre mot de passe et dites-nous pourquoi vous partez.",

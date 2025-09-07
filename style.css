@@ -1813,3 +1813,35 @@ canvas#gameCanvas {
     color: #888;
     margin-top: 5px;
 }
+
+/* --- 19 - OYUN SONU EKRANI BUTONLARI --- */
+/* 1. OYUN SONU ve DURAKLATMA EKRANINDAKİ TÜM BUTONLAR İÇİN ORTAK STİLLER */
+/* Ortak Yerleşim Kuralları */
+#game-over-box .menu-btn {
+    width: 100%;
+    height: 60px;
+}
+#back-to-menu-btn {
+    margin-top: 20px;
+}
+#replay-btn {
+    margin-top: 15px;
+}
+
+#replay-btn {
+    background-color: #00bcd4;
+    color: #121212;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    letter-spacing: 1px;
+}
+#replay-btn:hover {
+    background-color: #4dd0e1;
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+}

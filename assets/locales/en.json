@@ -112,6 +112,7 @@
   "pause_countdown_start": "Game Starting",
   "pause_countdown_fight": "Fight!",
   "resume_button": "Resume",
+  "replay_button": "Play Again",
   
   "delete_account_modal_title": "You Are About to Delete Your Account",
   "delete_account_modal_desc": "This action cannot be undone. To proceed, please confirm your password and let us know why you are leaving.",

@@ -112,6 +112,7 @@
   "pause_countdown_start": "게임 시작",
   "pause_countdown_fight": "전투!",
   "resume_button": "계속",
+  "replay_button": "다시 하기",
 
   "delete_account_modal_title": "계정을 삭제하려고 합니다",
   "delete_account_modal_desc": "이 작업은 취소할 수 없습니다. 계속하려면 비밀번호를 확인하고 떠나는 이유를 알려주세요.",
