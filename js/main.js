@@ -7,7 +7,6 @@ import * as firebase from '../firebase.js';
 async function initializeApp() {
     
     // 1. ADIM: Arka planda, beklemeden temizliği tetikle.
-    // Bu, uygulamanın geri kalanının yüklenmesini veya çalışmasını engellemez.
     firebase.triggerInvitationCleanup();
 
     // 2. ADIM: Her şeyden önce çeviri sistemini başlat
@@ -22,10 +21,16 @@ async function initializeApp() {
         // Diğer çeviriler de buraya eklenebilir.
     }
 
-    // 4. ADIM: Ekran genişliğini kontrol et
+    // 4. ADIM: URL'yi ve ekran genişliğini kontrol et
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasInviteToken = urlParams.has('invite');
     const MOBILE_BREAKPOINT = 768;
-    if (window.innerWidth < MOBILE_BREAKPOINT) {
-        // EĞER EKRAN DARSA (MOBİLSE):
+    const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+
+    // 5. ADIM: Duruma göre karar ver
+    if (isMobile && !hasInviteToken) {
+        // DURUM A: Cihaz mobil VE davet linki YOK.
+        // Sadece mobil karşılama ekranını göster.
         
         const mobileScreen = document.getElementById('mobile-screen');
         const authScreen = document.getElementById('auth-screen');
@@ -33,17 +38,18 @@ async function initializeApp() {
         if (authScreen) authScreen.style.display = 'none';
         if (mobileScreen) mobileScreen.classList.add('active');
         
-        // Çevirileri mobil ekran için uygula
+        // Gerekli çevirileri ve arka planı yükle
         applyTranslations();
-        
-        // Arka plan animasyonunu başlat
         initMenuBackground();
         
-        // Oyun motorunu yüklemeden fonksiyonu bitir.
+        // Uygulamanın geri kalanını (oyun motoru vb.) yüklemeden çık.
         return; 
     }
 
-    // 5. ADIM: EĞER EKRAN GENİŞSE (MASAÜSTÜYSE):
+    // DURUM B ve C: Cihaz masaüstü VEYA bir davet linki var.
+    // Bu durumlarda, oyunun tam sürümünü yüklememiz gerekiyor, çünkü davet linki
+    // hem mobilde (tek sütun) hem de masaüstünde (çift sütun) ui.js tarafından yönetilir.
+    
     // Normal oyun yükleme sürecini başlat.
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');

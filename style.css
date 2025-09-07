@@ -1845,3 +1845,35 @@ canvas#gameCanvas {
     transform: scale(1.03);
     box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
 }
+
+
+/* --- 20 - MOBİL CİHAZLAR İÇİN MEYDAN OKUMA EKRANI UYARLAMASI --- */
+/* Ekran genişliği 768 piksel veya daha darsa, bu kurallar geçerli olur */
+@media (max-width: 768px) {
+
+    /* Sol sütunu gizle */
+    #challenge-screen .menu-content {
+        display: none;
+    }
+
+    /* Ana konteynerin, içindeki kutuyu ortalamasını sağla */
+    .challenge-layout-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 1. Meydan okuma kutusunu bir bütün olarak KÜÇÜLT */
+    .challenge-box {
+        transform: scale(0.7);
+    }
+
+    /* 2. Kutu küçülmüş olsa bile, İÇİNDEKİ skor listesini TEK SÜTUNA DÜŞÜR */
+    #challenge-scores-list {
+        display: grid;
+        grid-template-columns: 1fr; /* Sadece TEK bir sütun olsun */
+        gap: 10px; /* Kutular arası boşluğu ayarla */
+    }
+}
