@@ -260,18 +260,18 @@ export async function getHighScores() {
     const modeUnits = { SKILL_DODGE: 'Kills', KITE_ONLY: 'Kills', KAOS: 's', DODGE_ONLY: 's' };
 
     for (const mode of modes) {
-        const q = query(collection(db, 'highscores'), where('mode', '==', mode), orderBy('score', 'desc'), limit(10));
+        const q = query(collection(db, 'highscores'), where('mode', '==', mode), orderBy('score', 'desc'), limit(100));
         const snapshot = await getDocs(q);
         allScores[mode] = { scores: snapshot.docs.map(doc => doc.data()), unit: modeUnits[mode] };
     }
 
     // Paradox - Zaferler
-    const vicQ = query(collection(db, 'highscores'), where('subCategory', '==', 'victory'), orderBy('score', 'asc'), limit(10));
+    const vicQ = query(collection(db, 'highscores'), where('subCategory', '==', 'victory'), orderBy('score', 'asc'), limit(100));
     const vicSnap = await getDocs(vicQ);
     allScores['REFLECTION_VICTORIES'] = { scores: vicSnap.docs.map(doc => doc.data()), unit: 's' };
 
     // Paradox - Direniş
-    const survQ = query(collection(db, 'highscores'), where('subCategory', '==', 'survival'), orderBy('score', 'desc'), limit(10));
+    const survQ = query(collection(db, 'highscores'), where('subCategory', '==', 'survival'), orderBy('score', 'desc'), limit(100));
     const survSnap = await getDocs(survQ);
     allScores['REFLECTION_SURVIVALS'] = { scores: survSnap.docs.map(doc => doc.data()), unit: 's' };
 
