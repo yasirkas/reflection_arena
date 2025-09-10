@@ -116,6 +116,7 @@ export class UI {
             remapFireBtn: document.getElementById('remap-fire-btn'),
             remapStopBtn: document.getElementById('remap-stop-btn'),
             closeControlsSettingsBtn: document.getElementById('close-controls-settings-btn'),
+            mouseButtonSelector: document.querySelector('.mouse-button-selector'),
             showFeedbackBtn: document.getElementById('show-feedback-btn'),
             feedbackModal: document.getElementById('feedback-modal'),
             feedbackForm: document.getElementById('feedback-form'),
@@ -366,6 +367,30 @@ export class UI {
         }
     });
 
+        // Fare butonu seçimini yönetir
+        this.elements.mouseButtonSelector.addEventListener('click', e => {
+            const button = e.target.closest('.mouse-btn');
+            if (button) {
+                const selectedValue = button.dataset.value;
+
+                // Eğer zaten aktifse bir şey yapma
+                if (button.classList.contains('active')) return;
+
+                // Diğer butondan 'active' sınıfını kaldır
+                this.elements.mouseButtonSelector.querySelector('.mouse-btn.active').classList.remove('active');
+                // Tıklanan butona 'active' sınıfını ekle
+                button.classList.add('active');
+
+                // Ayarları yerel olarak ve veritabanında güncelle
+                this.currentControls.move = selectedValue;
+                this.game.controls.move = selectedValue;
+                if (this.game.userProfile) { // Profilin yüklendiğinden emin ol
+                    this.game.userProfile.controls.move = selectedValue;
+                    firebase.updateUserControls(this.game.userProfile.uid, { move: selectedValue });
+                }
+            }
+        });
+
         // "Bize Ulaşın" modalını açar
         this.elements.showFeedbackBtn.addEventListener('click', () => {
             this.elements.feedbackForm.reset();
@@ -416,13 +441,18 @@ export class UI {
 
         // "Kontrol Ayarları" modalını açar
         this.elements.showControlsSettingsBtn.addEventListener('click', () => {
-            // Mevcut ayarları kopyala ve buton metinlerini güncelle
-            this.currentControls = { ...this.game.userProfile.controls };
-            this.updateRemapButtonsText();
-            
-            this.elements.controlsSettingsModal.classList.add('visible');
-            this.elements.profileSettingsDropdown.classList.remove('visible');
-        });
+        this.currentControls = { ...(this.game.userProfile.controls || this.game.controls) };
+        this.updateRemapButtonsText();
+        
+        // Mevcut fare ayarını butonlara yansıt
+        this.elements.mouseButtonSelector.querySelector('.mouse-btn.active').classList.remove('active');
+        const currentMoveValue = this.currentControls.move || 'right'; // Varsayılan sağ tık
+        const currentMoveBtn = this.elements.mouseButtonSelector.querySelector(`[data-value="${currentMoveValue}"]`);
+        if (currentMoveBtn) currentMoveBtn.classList.add('active');
+        
+        this.elements.controlsSettingsModal.classList.add('visible');
+        this.elements.profileSettingsDropdown.classList.remove('visible');
+    });
 
         // "Kontrol Ayarları" modalını kapatır
         this.elements.closeControlsSettingsBtn.addEventListener('click', () => {

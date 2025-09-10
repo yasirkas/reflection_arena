@@ -1711,19 +1711,45 @@ canvas#gameCanvas {
   font-style: italic;
 }
 
+.mouse-button-selector {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start; /* Butonları sola yasla */
+}
+
+.mouse-btn {
+    width: auto; /* Genişliği içeriğe göre ayarla */
+    padding: 0 15px; /* Yatay boşluk ver */
+    font-size: 1.1rem; /* Yazıyı biraz küçült */
+}
+
+/* Aktif olmayan fare butonu için stil */
+.mouse-btn:not(.active) {
+    background-color: transparent;
+    color: #888;
+}
+
+/* Aktif fare butonu için stil */
+.mouse-btn.active {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
 .remap-btn {
     background-color: #333;
     border: 1px solid #555;
     color: #fff;
-    font-family: 'Poppins', sans-serif; /* Fontu tutarlı yap */
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
     border-radius: 8px;
-    width: 120px; /* Sabit genişlik */
+    width: 120px;
     height: 60px;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap; /* İçindeki metnin alt satıra geçmesini engelle */
 }
 
 .remap-btn:hover {

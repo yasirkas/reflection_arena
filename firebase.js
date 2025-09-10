@@ -42,7 +42,8 @@ export async function registerUser(username, email, password) {
             
             controls: {
                 fire: 'q',
-                stop: 's'
+                stop: 's',
+                move: 'right'
             }
         });
         

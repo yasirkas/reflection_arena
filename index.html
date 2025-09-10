@@ -325,7 +325,7 @@
             <div class="how-to-play-section">
                 <h3 class="section-title" data-i18n="controls_title"></h3>
                 <div class="controls-grid">
-                    <p><span data-i18n="controls_movement_label"></span> <span data-i18n="controls_movement_value"></span></p>
+                    <p><span data-i18n="controls_movement_label"></span> <span data-i18n="controls_right_click"></span></p>
                     <p><span data-i18n="controls_fire_label"></span> <span data-i18n="controls_fire_value"></span></p>
                     <p><span data-i18n="controls_stop_label"></span> <span data-i18n="controls_stop_value"></span></p>
                 </div>
@@ -506,7 +506,16 @@
                 <!-- Durma Satırı -->
                 <span class="control-label" data-i18n="controls_stop_label"></span>
                 <button id="remap-stop-btn" class="remap-btn" data-action="stop">S</button>
+
+                <!-- Hareket Etme Satırı -->
+                <span class="control-label" data-i18n="controls_movement_label"></span>
+                <div class="mouse-button-selector">
+                    <button class="remap-btn mouse-btn" data-action="move" data-value="left" data-i18n="controls_left_click"></button>
+                    <button class="remap-btn mouse-btn active" data-action="move" data-value="right" data-i18n="controls_right_click"></button>
+                </div>
             </div>
+            
+            <!-- "Kaydet" butonu artık .modal-box'ın İÇİNDE -->
             <div class="modal-actions">
                 <button type="button" id="close-controls-settings-btn" class="menu-btn primary" data-i18n="save_button"></button> 
             </div>

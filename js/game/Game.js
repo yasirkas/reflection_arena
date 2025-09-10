@@ -40,7 +40,7 @@ export default class Game {
         this.canClickRestart = false;
         this.currentGameMode = null;
         this.personalBests = {};
-        this.controls = { fire: 'q', stop: 's' };
+        this.controls = { fire: 'q', stop: 's', move: 'right' };
         
     }
 

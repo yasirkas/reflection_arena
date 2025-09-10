@@ -67,16 +67,23 @@ export class InputHandler {
     }
 
     handleMouseDown(e) {
-        if (this.game.isGameOver || this.game.isPaused) return;
+    if (this.game.isGameOver || this.game.isPaused) return;
 
-        if (e.button === 2 && this.game.player) { // Sağ Tık
-            const rect = this.game.canvas.getBoundingClientRect();
-            const targetX = (e.clientX - rect.left) * (this.game.canvas.width / rect.width);
-            const targetY = (e.clientY - rect.top) * (this.game.canvas.height / rect.height);
-            
-            this.game.player.setTarget(targetX, targetY);
-        }
+    // 1. Oyuncunun hareket için hangi tuşu seçtiğini öğren ('left' veya 'right')
+    // Varsayılan olarak 'right' kabul edelim.
+    const moveMouseButtonValue = this.game.controls.move || 'right';
+    const moveMouseButtonCode = moveMouseButtonValue === 'left' ? 0 : 2; // Sol tık = 0, Sağ tık = 2
+
+    // 2. Sadece oyuncunun seçtiği tuşa basıldıysa devam et
+    if (e.button === moveMouseButtonCode && this.game.player) {
+        
+        const rect = this.game.canvas.getBoundingClientRect();
+        const targetX = (e.clientX - rect.left) * (this.game.canvas.width / rect.width);
+        const targetY = (e.clientY - rect.top) * (this.game.canvas.height / rect.height);
+        
+        this.game.player.setTarget(targetX, targetY);
     }
+}
 
     // ===== YENİ, BİRLEŞTİRİLMİŞ FONKSİYON =====
     // handleVisibilityChange'in yerini aldı.
